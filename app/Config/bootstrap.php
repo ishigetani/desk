@@ -71,6 +71,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+CakePlugin::load('DebugKit');
 
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -97,13 +98,49 @@ Configure::write('Dispatcher.filters', array(
  * Configures default file logging options
  */
 App::uses('CakeLog', 'Log');
+$log_path = LOGS.DS.date('Ym').'_';
 CakeLog::config('debug', array(
 	'engine' => 'FileLog',
 	'types' => array('notice', 'info', 'debug'),
 	'file' => 'debug',
+    'path' => $log_path,
 ));
 CakeLog::config('error', array(
 	'engine' => 'FileLog',
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
+    'path' => $log_path,
 ));
+define('DESK_LOG', 'desk');
+CakeLog::config('desk', array(
+    'engine' => 'FileLog',
+    'types' => array('desk'),
+    'file' => 'desk',
+    'path' => $log_path,
+));
+define('SQL_LOG', 'sql');
+CakeLog::config('sql', array(
+    'engine' => 'FileLog',
+    'types' => array('sql'),
+    'file' => 'sql',
+    'path' => $log_path,
+));
+
+Configure::write('Security', array(
+    'level' => 'high',
+    'salt' => 'qfoidnfkmdlaoienoqmxoznm',
+    'cipherSeed' => '1283274012874943023321'
+));
+Configure::write('Session', array(
+    'defaults' => 'database',
+    'cookie' => 'SID',
+    'timeout' => 259200,
+    'ini' => Array(
+        'session.cookie_lifetime' => 2580000,
+        'session.gc_maxlifetime' => 2580000,
+        'session.gc_probability' => 1,
+        'session.gc_divisor' => 100
+    )
+));
+
+define('DESK_TITLE', 'DESK');

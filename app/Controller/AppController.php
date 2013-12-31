@@ -32,4 +32,24 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    public $components = array('DebugKit.Toolbar', 'Session', 'Auth');
+
+    public function beforeFilter() {
+        $this->Auth->loginRedirect = array('controller' => 'chats', 'action' => 'index');
+        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+        $userinfo = $this->Auth->user();
+        if (!empty($userinfo)) {
+            // ログインしている場合
+            $this->Auth->authError = 'アクセス権がありません';
+            $this->set('userinfo', $userinfo);
+        } else {
+            // ログインしていない場合
+            $this->Auth->authError = 'ログインしてください';
+        }
+        // ヘッダーの年生成
+        $_timeNow = new DateTime();
+        $this->set('year_time', $_timeNow->format('Y'));
+    }
 }

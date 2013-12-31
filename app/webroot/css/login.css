@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+#container {
+    text-align: left;
+    width: 90%;
+    margin: 0 auto;
+}
+
+body {
+    background-image: url("../img/wood.png");
+    color: #1f744e;
+    font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+    font-size:90%;
+    text-align: center;
+}
+
+#login-form{
+    width: 400px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #555;
+    background: #ffffff;
+    overflow: auto;
+}
+
+form p{
+    font-size: 14px;
+}
+
+.form-title{
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"]{
+    width: 300px;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.submit{
+    text-align: right;
+}
+
+/* font */
+#login-form p{
+    color: #1f744e;
+    font-weight: bold;
+}
+
+#login-form .form-title{
+    font-weight:normal;
+    color:#0E9E13;
+    letter-spacing:1pt;
+    word-spacing:3pt;
+    font-size:38px;
+    text-align:center;
+    font-family:arial black, sans-serif;
+    line-height:1;
+
+}
+
+#form-form .form-title{
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1f744e;
+    margin-bottom: 20px;
+}
+
+.submit input{
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    text-decoration: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 8px 6px #e3e3e3;
+    -moz-box-shadow: 0px 8px 6px #e3e3e3;
+    box-shadow: 0px 8px 6px #e3e3e3;
+    border: solid #f5fdff 4px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#31b77b), to(#1f744e));
+    background: -moz-linear-gradient(top, #61c7e0, #418da8);
+}
+
+div.message {
+    font-size: 15px;
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0, rgb(224, 56, 79)),color-stop(1, rgb(240, 0, 12)));
+    background-image: -moz-linear-gradient(-90deg,rgb(224, 56, 79) 0%,rgb(240, 0, 12) 100%);
+    background-image: linear-gradient(-90deg,rgb(224, 56, 79) 0%,rgb(240, 0, 12) 100%);
+    -webkit-box-shadow: 2px 2px 4px rgb(51, 51, 51);
+    -moz-box-shadow: 2px 2px 4px rgb(51, 51, 51);
+    box-shadow: 2px 2px 4px rgb(51, 51, 51);
+    -ms-box-shadow: 2px 2px 4px rgb(51, 51, 51);
+    color: rgb(247, 237, 247);
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+}

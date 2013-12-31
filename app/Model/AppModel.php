@@ -32,4 +32,23 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+    public $actsAs = array( 'SoftDelete' );
+
+    /**
+     * 論理削除
+     *
+     * @param null $id
+     * @param bool $cascade
+     * @return bool|mixed
+     */
+    public function delete($id = null, $cascade = true) {
+        $_timeNow = new DateTime();
+        $timeNow = $_timeNow->format('Y-m-d H:i:s');
+        if (!empty($this->id)) {
+            $id = $this->id;
+        }
+        return $this->save(array('id' => $id, 'deleted' => 1, 'deleted_date' => $timeNow), false);
+    }
+
 }
