@@ -1,42 +1,30 @@
-<div class="chats index">
-	<h2><?php echo __('Chats'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('chat'); ?></th>
-			<th><?php echo $this->Paginator->sort('category_id'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php foreach ($chats as $chat): ?>
-	<tr>
-		<td><?php echo h($chat['Chat']['id']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($chat['User']['name'], array('controller' => 'users', 'action' => 'view', $chat['User']['id'])); ?>
-		</td>
-		<td><?php echo h($chat['Chat']['chat']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($chat['Category']['name'], array('controller' => 'categories', 'action' => 'view', $chat['Category']['id'])); ?>
-		</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $chat['Chat']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $chat['Chat']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $chat['Chat']['id']), null, __('Are you sure you want to delete # %s?', $chat['Chat']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
+<?php
+$request = $this->Js->request(
+    array(
+        'action' => 'index',
+        ),
+        array(
+            'method' => 'get',
+            'sync' => true,
+            'update' => '#chat-list',
+        )
+    );
+?>
+<div class="chat-message"></div>
+<div class="chat-add">
+    <?php echo $this->Form->create('Chat'); ?>
+    <?php echo $this->Form->input('chat', array('type' => 'textarea', 'maxlength' => 1000, 'label' => 'Message')); ?>
+    <?php echo $this->Form->input('category_id', array('type' => 'select', 'options' => $categories, 'label' => 'Category')); ?>
+    <?php echo $this->Js->submit('送信',
+        array('id' => 'chat-add', 'url' => array('action' => 'add'), 'buffer' => false,
+            'before'=>$this->Js->get('.chat-message')->effect('fadeIn'),
+            'success'=>$request,
+            'update'=>'.chat-message',
+        ));
+    ?>
+    <?php echo $this->Form->end(); ?>
+</div>
+<div class="chat-index">
+    <h2><?php echo __('Chats'); ?></h2>
+    <?php echo $this->Element('chat'); ?>
 </div>

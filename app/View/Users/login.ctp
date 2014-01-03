@@ -12,8 +12,8 @@
 <?php echo $this->Session->flash("auth"); ?>
 <?php echo $this->Form->create('User', array('id' => 'form-validate')); ?>
     <P>Name</P>
-<?php echo $this->Form->input('name', array('label' => false, 'class' => 'validate[required]')); ?>
+<?php echo $this->Form->input('name', array('label' => false, 'class' => 'validate[required]', 'required' => false)); ?>
     <P>Password</P>
-<?php echo $this->Form->input('passwd', array('label' => false, 'class' => 'validate[required]')); ?>
+<?php echo $this->Form->input('passwd', array('label' => false, 'class' => 'validate[required]', 'required' => false)); ?>
 <?php echo $this->Form->end('LOGIN', array('class' => 'submit')); ?>
 </div>

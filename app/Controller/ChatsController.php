@@ -15,14 +15,28 @@ class ChatsController extends AppController {
  */
 	public $components = array('Paginator');
 
+    public $uses = array('Chat');
+
+    public $paginate = array('Chat' =>
+        array(
+            'order' => array('Chat.created' => 'desc'),
+        )
+    );
+
 /**
  * index method
  *
  * @return void
  */
 	public function index() {
-		$this->Chat->recursive = 0;
-		$this->set('chats', $this->Paginator->paginate());
+        $this->Chat->recursive = 0;
+        $this->set('chats', $this->Paginator->paginate());
+        if ($this->request->is('ajax')) {
+            return $this->render('/Elements/chat', 'ajax');
+        }
+        $this->loadModel('Category');
+        $this->Category->recursive = 0;
+        $this->set('categories', $this->Category->find('list'));
 	}
 
 /**
@@ -46,18 +60,14 @@ class ChatsController extends AppController {
  * @return void
  */
 	public function add() {
-		if ($this->request->is('post')) {
-			$this->Chat->create();
-			if ($this->Chat->save($this->request->data)) {
-				$this->Session->setFlash(__('The chat has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The chat could not be saved. Please, try again.'));
-			}
-		}
-		$users = $this->Chat->User->find('list');
-		$categories = $this->Chat->Category->find('list');
-		$this->set(compact('users', 'categories'));
+        $this->autoRender = false;
+		if (!$this->request->is('ajax')) {$this->redirect(array('action' => 'index'));}
+        $this->Chat->create();
+        $this->request->data['Chat']['user_id'] = $this->Auth->user('id');
+        if (!$this->Chat->save($this->request->data)) {
+            $this->set('valerror', $this->Chat->validationErrors);
+        }
+        $this->render('/Elements/success','ajax');
 	}
 
 /**

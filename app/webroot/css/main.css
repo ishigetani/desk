@@ -86,6 +86,12 @@ p {
     margin: 0 20px 0 0;
 	overflow: auto;
 }
+
+#chat-content{
+    border-top:dotted;
+    border-bottom:dotted;
+}
+
 #footer {
 	clear: both;
 	padding: 6px 10px;
