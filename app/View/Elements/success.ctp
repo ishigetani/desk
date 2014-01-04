@@ -9,17 +9,20 @@
 
 <?php
 if (!empty($valerror)){
-    foreach($valerror['chat'] as $error) {
+    foreach($valerror as $error) {
         echo $error. "<br />\n";
     }
 } else {
     echo "送信完了";
+    ?>
+    <script>
+        $(function(){
+            $('#chat-message').val("");
+            setTimeout(function(){
+                $(".chat-reply").fadeOut('slow');
+            },2000);
+        });
+    </script>
+<?php
 }
 ?>
-<script>
-$(function(){
-    setTimeout(function(){
-        $(".chat-message").fadeOut('slow');
-    },3000);
-});
-</script>

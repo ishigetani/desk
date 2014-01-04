@@ -78,18 +78,24 @@ p {
 }
 
 #content{
-    width: 70%;
+    width: 73%;
 	background: #fff;
     float: right;
 	color: #333;
-	padding: 10px 20px 40px 20px;
-    margin: 0 20px 0 0;
+	padding: 10px 1% 40px 1%;
+    margin: 0 2% 0 0;
 	overflow: auto;
 }
 
 #chat-content{
     border-top:dotted;
     border-bottom:dotted;
+    padding: 1%;
+}
+
+.chat-index {
+    clear: both;
+    margin: 10px 0 0 0;
 }
 
 #footer {
@@ -703,4 +709,36 @@ pre {
 /** Elements **/
 #url-rewriting-warning {
 	display:none;
+}
+
+/** Chat Add **/
+.chat-add {
+    border: dashed;
+    height: 210px;
+    margin: 0 auto;
+}
+
+div.input.textarea.required {
+    width: 80%;
+    float: left;
+    clear: none;
+    margin: 1% 1% 1% 2%;
+    padding: 0;
+}
+
+.ChatAdd-right {
+    width: 10%;
+    float: right;
+    clear: none;
+    margin: 7% 4% 0 1%;
+    padding: 0;
+}
+
+.ChatAdd-right div.input.select.required{
+    margin: 0;
+    padding: 0;
+}
+
+.ChatAdd-right input, select{
+    width: 100%;
 }

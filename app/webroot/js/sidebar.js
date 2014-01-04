@@ -13,4 +13,6 @@ $(function(){
             $(this).next().show();
         }
     });
+    $("#sidebar").containedStickyScroll();
+    $("#chat-update").hide();
 });

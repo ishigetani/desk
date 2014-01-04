@@ -71,4 +71,20 @@ class Chat extends AppModel {
 			'order' => ''
 		)
 	);
+
+    // comet処理
+    public function update_check() {
+        $this->recursive = -1;
+        $_data['created'] = $this->find('first', array('fields' => 'id' ,'order' => array('created' => 'DESC')));
+        $_data['modified'] = $this->find('first', array('fields' => 'id' ,'order' => array('modified' => 'DESC')));
+        for ($i = 0; $i < 10; $i++) {
+            sleep(1);
+            // 作成・更新されたデータがあれば終了
+            if ($_data['created'] != $this->find('first', array('fields' => 'id' ,'order' => array('created' => 'DESC'))) ||
+                $_data['modified'] != $this->find('first', array('fields' => 'id' ,'order' => array('modified' => 'DESC')))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

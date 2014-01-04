@@ -6,6 +6,7 @@
  * Time: 14:56
  */
 ?>
+<?php echo $this->Html->script('jquery-contained-sticky-scroll-min'); ?>
 <?php echo $this->Html->script('sidebar'); ?>
 <?php echo $this->Html->css('sidebar'); ?>
 <ul>
@@ -47,3 +48,9 @@
         </ul>
     </li>
 </ul>
+
+<?php echo $this->Js->link('リスト更新', array('action' => 'index'), array(
+    'id' => 'chat-update',
+    'update' => '#chat-list',
+    'buffer' => false
+)); ?>

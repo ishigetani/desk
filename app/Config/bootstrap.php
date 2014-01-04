@@ -134,13 +134,13 @@ Configure::write('Security', array(
 Configure::write('Session', array(
     'defaults' => 'database',
     'cookie' => 'SID',
-    'timeout' => 259200,
+    'timeout' => 1440,
     'ini' => Array(
-        'session.cookie_lifetime' => 2580000,
+        'session.cookie_lifetime' => 0,
         'session.gc_maxlifetime' => 2580000,
         'session.gc_probability' => 1,
         'session.gc_divisor' => 100
     )
 ));
-
+// アプリ名
 define('DESK_TITLE', 'DESK');

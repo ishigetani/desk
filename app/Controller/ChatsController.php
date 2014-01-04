@@ -17,12 +17,6 @@ class ChatsController extends AppController {
 
     public $uses = array('Chat');
 
-    public $paginate = array('Chat' =>
-        array(
-            'order' => array('Chat.created' => 'desc'),
-        )
-    );
-
 /**
  * index method
  *
@@ -40,21 +34,6 @@ class ChatsController extends AppController {
 	}
 
 /**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Chat->exists($id)) {
-			throw new NotFoundException(__('Invalid chat'));
-		}
-		$options = array('conditions' => array('Chat.' . $this->Chat->primaryKey => $id));
-		$this->set('chat', $this->Chat->find('first', $options));
-	}
-
-/**
  * add method
  *
  * @return void
@@ -65,7 +44,7 @@ class ChatsController extends AppController {
         $this->Chat->create();
         $this->request->data['Chat']['user_id'] = $this->Auth->user('id');
         if (!$this->Chat->save($this->request->data)) {
-            $this->set('valerror', $this->Chat->validationErrors);
+            $this->set('valerror', $this->Chat->validationErrors['chat']);
         }
         $this->render('/Elements/success','ajax');
 	}
@@ -116,4 +95,23 @@ class ChatsController extends AppController {
 			$this->Session->setFlash(__('The chat could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    /**
+     * update_check method
+     *
+     * @access Ajax only
+     * @throws NotFoundException
+     * @return boolean
+     */
+    public function update_check() {
+        //if(!$this->request->is('ajax')) throw new NotFoundException();
+        $this->autoRender = false;
+        if ($this->Chat->update_check()) {
+            return $this->render('/Elements/chat', 'ajax');
+        } else {
+            return $this->render('/Elements/chat', 'ajax');
+        }
+    }
+
+}
