@@ -50,7 +50,7 @@
 </ul>
 
 <?php echo $this->Js->link('リスト更新', array('action' => 'index'), array(
-    'id' => 'chat-update',
+    'id' => 'chat-updated',
     'update' => '#chat-list',
     'buffer' => false
 )); ?>

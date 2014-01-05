@@ -1,12 +1,12 @@
 <?php
 $request = $this->Js->request(
     array(
-        'action' => 'index',
+        'action' => 'contents_update',
         ),
         array(
             'method' => 'get',
             'sync' => true,
-            'update' => '#chat-list',
+            'update' => '#chat-contents',
         )
     );
 ?>
@@ -18,7 +18,6 @@ $request = $this->Js->request(
         <?php echo $this->Form->input('category_id', array('type' => 'select', 'options' => $categories, 'label' => 'Category')); ?>
         <?php echo $this->Js->submit('送信',
             array('id' => 'chat-add', 'url' => array('action' => 'add'), 'buffer' => false,
-                'before'=>$this->Js->get('.chat-reply')->effect('fadeIn'),
                 'success'=>$request,
                 'update'=>'.chat-reply',
             ));
@@ -28,6 +27,8 @@ $request = $this->Js->request(
 </div>
 <div class="chat-index">
     <h2><?php echo __('Chats'); ?></h2>
-    <?php echo $this->Element('chat'); ?>
+    <div id="chat-list">
+        <?php echo $this->Element('chat'); ?>
+    </div>
 </div>
 <div class="chat-update"></div>

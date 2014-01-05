@@ -742,3 +742,20 @@ div.input.textarea.required {
 .ChatAdd-right input, select{
     width: 100%;
 }
+
+#notifyMessage, #dataMessage{
+    display: none;
+    position: absolute;
+    top: expression(eval(document.documentElement.scrollTop+0));
+    left:50%;
+    margin-left: -250px;
+    padding: 15px 0;
+    width: 500px;
+    text-align: center;
+    font-size: 13px;
+    color: #fff;
+    background-color: rgba(51,51,51, 0.9);
+    -webkit-border-radius: 5px; /* Safari Chrome */
+    -moz-border-radius: 5px;    /* Firefox */
+    border-radius: 5px;
+}

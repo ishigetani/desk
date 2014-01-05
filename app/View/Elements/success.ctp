@@ -6,7 +6,7 @@
  * Time: 11:08
  */
 ?>
-
+<div id="notifyMessage">
 <?php
 if (!empty($valerror)){
     foreach($valerror as $error) {
@@ -18,11 +18,17 @@ if (!empty($valerror)){
     <script>
         $(function(){
             $('#chat-message').val("");
-            setTimeout(function(){
-                $(".chat-reply").fadeOut('slow');
-            },2000);
         });
     </script>
 <?php
 }
 ?>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).ready(function() {
+            $("#notifyMessage").stop().fadeIn(1000).delay(2000).fadeOut("slow");
+        });
+    });
+</script>

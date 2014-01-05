@@ -8,7 +8,7 @@ App::uses('AppModel', 'Model');
  */
 class Chat extends AppModel {
 
-    public $order = 'Chat.created DESC';
+    public $order = 'Chat.id DESC';
 
 /**
  * Validation rules
@@ -73,18 +73,37 @@ class Chat extends AppModel {
 	);
 
     // comet処理
-    public function update_check() {
+    public function update_check($id = null) {
+        if(empty($id)) return false;
+        $result = false;
         $this->recursive = -1;
-        $_data['created'] = $this->find('first', array('fields' => 'id' ,'order' => array('created' => 'DESC')));
-        $_data['modified'] = $this->find('first', array('fields' => 'id' ,'order' => array('modified' => 'DESC')));
-        for ($i = 0; $i < 10; $i++) {
+        $_data['created'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('id' => 'DESC')));
+        $_data['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
+        for ($i = 0; $i < 20; $i++) {
             sleep(1);
             // 作成・更新されたデータがあれば終了
-            if ($_data['created'] != $this->find('first', array('fields' => 'id' ,'order' => array('created' => 'DESC'))) ||
-                $_data['modified'] != $this->find('first', array('fields' => 'id' ,'order' => array('modified' => 'DESC')))) {
-                return true;
+            $_tmp['created'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('id' => 'DESC')));
+            if ($_data['created'] != $_tmp['created']) {
+                // 自分以外が更新した場合trueを返す
+                if ($_tmp['created']['Chat']['user_id'] == $id) {
+                    $result = false;
+                } else {
+                    $result = true;
+                }
+                break;
             }
+            $_tmp['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
+            if ($_data['modified'] != $_tmp['modified']) {
+                // 自分以外が更新した場合trueを返す
+                if ($_tmp['modified']['Chat']['user_id'] == $id) {
+                    $result = false;
+                } else {
+                    $result = true;
+                }
+                break;
+            }
+            $this->log($this->find('first', array('fields' => 'id' ,'order' => array('id' => 'DESC'))), DESK_LOG);
         }
-        return false;
+        return $result;
     }
 }

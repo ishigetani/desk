@@ -49,12 +49,24 @@ class ChatsController extends AppController {
         $this->render('/Elements/success','ajax');
 	}
 
+    /**
+     * contents_update method
+     *
+     * @access Ajax only
+     * @throws NotFoundException
+     */
+    public function contents_update() {
+        if (!$this->request->is('ajax')) throw new NotFoundException();
+        $this->Chat->recursive = 0;
+        $this->set('chats', $this->Paginator->paginate());
+        $this->render('/Elements/chat_contents', 'ajax');
+    }
+
 /**
  * edit method
  *
  * @throws NotFoundException
  * @param string $id
- * @return void
  */
 	public function edit($id = null) {
 		if (!$this->Chat->exists($id)) {
@@ -63,7 +75,7 @@ class ChatsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Chat->save($this->request->data)) {
 				$this->Session->setFlash(__('The chat has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The chat could not be saved. Please, try again.'));
 			}
@@ -81,7 +93,6 @@ class ChatsController extends AppController {
  *
  * @throws NotFoundException
  * @param string $id
- * @return void
  */
 	public function delete($id = null) {
 		$this->Chat->id = $id;
@@ -94,7 +105,7 @@ class ChatsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The chat could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));
 	}
 
     /**
@@ -105,12 +116,12 @@ class ChatsController extends AppController {
      * @return boolean
      */
     public function update_check() {
-        //if(!$this->request->is('ajax')) throw new NotFoundException();
+        if(!$this->request->is('ajax')) throw new NotFoundException();
         $this->autoRender = false;
-        if ($this->Chat->update_check()) {
-            return $this->render('/Elements/chat', 'ajax');
+        if ($this->Chat->update_check($this->Auth->user('id'))) {
+            return $this->render('/Elements/chat_updated', 'ajax');
         } else {
-            return $this->render('/Elements/chat', 'ajax');
+            return $this->render('/Elements/chat_update', 'ajax');
         }
     }
 
