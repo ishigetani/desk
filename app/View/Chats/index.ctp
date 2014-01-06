@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('jquery.bottom-1.0'); ?>
 <?php
 $request = $this->Js->request(
     array(

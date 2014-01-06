@@ -31,6 +31,7 @@ class ChatsController extends AppController {
         $this->loadModel('Category');
         $this->Category->recursive = 0;
         $this->set('categories', $this->Category->find('list'));
+        $this->set('nextPage', 2);
 	}
 
 /**
@@ -59,6 +60,10 @@ class ChatsController extends AppController {
         if (!$this->request->is('ajax')) throw new NotFoundException();
         $this->Chat->recursive = 0;
         $this->set('chats', $this->Paginator->paginate());
+        if (!empty($this->request->params['paging']['Chat']['page'])) {
+            $this->request->params['paging']['Chat']['page']++;
+            $this->set('nextPage', $this->request->params['paging']['Chat']['page']);
+        }
         $this->render('/Elements/chat_contents', 'ajax');
     }
 

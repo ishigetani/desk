@@ -102,7 +102,6 @@ class Chat extends AppModel {
                 }
                 break;
             }
-            $this->log($this->find('first', array('fields' => 'id' ,'order' => array('id' => 'DESC'))), DESK_LOG);
         }
         return $result;
     }
