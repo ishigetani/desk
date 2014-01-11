@@ -13,6 +13,14 @@ $(function(){
             $(this).next().show();
         }
     });
-    $("#sidebar").containedStickyScroll();
+    //$("#sidebar").containedStickyScroll();
+    offset = $('#sidebar').offset();
+    $(window).scroll(function () {
+        if($(window).scrollTop() > offset.top) {
+				$("#sidebar").css({"position":"fixed","top":"40px", "width":"14%"});
+        } else {
+				$("#sidebar").css({"position":"static", "width":"16%"});
+        }
+    });
     $("#chat-update").hide();
 });

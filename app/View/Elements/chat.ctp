@@ -8,7 +8,7 @@
 ?>
 
 <div id="chat-updating">
-    <?php echo $this->Element('chat_update'); ?>
+    <?php //echo $this->Element('chat_update'); ?>
 </div>
 <div id="chat-contents">
     <?php echo $this->Element('chat_contents'); ?>

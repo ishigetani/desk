@@ -32,6 +32,8 @@
 
             <?php echo $this->fetch('content'); ?>
         </div>
+        <?php echo $this->Html->script('page-top'); ?>
+        <p id="page-top"><a href="#wrap">PAGE TOP</a></p>
 		<div id="footer">
             Copyright &copy; 2013 - <?php echo $year_time; ?> Conyative
 		</div>

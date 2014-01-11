@@ -17,6 +17,10 @@ class ChatsController extends AppController {
 
     public $uses = array('Chat');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+    }
+
 /**
  * index method
  *
@@ -26,6 +30,7 @@ class ChatsController extends AppController {
         $this->Chat->recursive = 0;
         $this->set('chats', $this->Paginator->paginate());
         if ($this->request->is('ajax')) {
+            $this->log('ajax', DESK_LOG);
             return $this->render('/Elements/chat', 'ajax');
         }
         $this->loadModel('Category');

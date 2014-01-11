@@ -42,6 +42,7 @@ class AppController extends Controller {
         $userinfo = $this->Auth->user();
         if (!empty($userinfo)) {
             // ログインしている場合
+            
             $this->Auth->authError = 'アクセス権がありません';
             $this->set('userinfo', $userinfo);
         } else {

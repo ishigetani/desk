@@ -2,13 +2,12 @@
 
 #sidebar {
     width: 16%;
-    height: 300px;
+    height: 330px;
     background: #fff;
     float: left;
     color: #333;
     padding: 10px 1% 40px 1%;
     margin: 0 0 0 2%;
-    overflow: auto;
 }
 
 #sidebar ul {
@@ -50,6 +49,6 @@
     background-image: -webkit-linear-gradient(top, #fefefe, #31b14f);
 }
 
-#chat-updated {
+#update-status {
     display: none;
 }
