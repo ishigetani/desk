@@ -136,6 +136,24 @@ div.view {
 	padding:10px 2%;
 }
 
+table tr td {
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom:1px solid #ddd;
+}
+table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+td.actions {
+    text-align: center;
+    white-space: nowrap;
+}
+table td.actions a {
+    margin: 0px 6px;
+    padding:2px 5px;
+}
+
 /** Paging **/
 .paging {
 	background:#fff;
@@ -823,4 +841,10 @@ a#button {
 #page-top a:hover {
     text-decoration: none;
     background: #999;
+}
+
+#category-list {
+    clear: both;
+    margin: 0 0 10px 10px;
+    width: 20%;
 }

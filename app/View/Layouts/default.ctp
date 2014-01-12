@@ -11,7 +11,6 @@
 
 		echo $this->Html->css('main');
 
-
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -29,6 +28,12 @@
             <?php echo $this->Html->script('jquery.tgTwNotifyMessage1'); ?>
 
             <?php echo $this->Session->flash(); ?>
+
+            <script>
+                $(function () {
+                    $('#flashMessage').delay(2000).fadeOut("slow");
+                });
+            </script>
 
             <?php echo $this->fetch('content'); ?>
         </div>

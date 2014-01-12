@@ -13,7 +13,8 @@ class ChatsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'Search.Prg');
+    public $presetVars = true;
 
     public $uses = array('Chat');
 
@@ -28,6 +29,10 @@ class ChatsController extends AppController {
  */
 	public function index() {
         $this->Chat->recursive = 0;
+        $this->Prg->commonProcess();
+        $this->paginate = array(
+            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
+        );
         $this->set('chats', $this->Paginator->paginate());
         if ($this->request->is('ajax')) {
             $this->log('ajax', DESK_LOG);
@@ -64,6 +69,10 @@ class ChatsController extends AppController {
     public function contents_update() {
         if (!$this->request->is('ajax')) throw new NotFoundException();
         $this->Chat->recursive = 0;
+        $this->Prg->commonProcess();
+        $this->paginate = array(
+            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
+        );
         $this->set('chats', $this->Paginator->paginate());
         if (!empty($this->request->params['paging']['Chat']['page'])) {
             $this->request->params['paging']['Chat']['page']++;

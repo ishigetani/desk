@@ -33,7 +33,7 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
-    public $actsAs = array( 'SoftDelete' );
+    public $actsAs = array('SoftDelete', 'Search.Searchable');
 
     /**
      * 論理削除

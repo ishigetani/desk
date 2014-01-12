@@ -10,6 +10,10 @@ class Chat extends AppModel {
 
     public $order = 'Chat.id DESC';
 
+    public $filterArgs = array(
+        array('name' => 'category', 'type' => 'value', 'field' => 'Chat.category_id')
+    );
+
 /**
  * Validation rules
  *
