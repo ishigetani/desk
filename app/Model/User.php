@@ -35,7 +35,7 @@ class User extends AppModel {
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'on' => 'create',
 			),
 		),
 		'group_id' => array(
@@ -88,16 +88,15 @@ class User extends AppModel {
 		)
 	);
 
-/**
- * beforeSave method
- *
- * @param $options array
- * @return boolean true
- */
-    public function beforeSave($options=array()) {
-        if (isset($this->data[$this->alias]['passwd'])) {
-            $this->data['User']['passwd'] = AuthComponent::password($this->data['User']['passwd']);
+    public function save($data = null, $validate = true, $fieldList = array()) {
+        $this->log($data, DESK_LOG);
+        if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
+            $fieldList = array(
+                'name', 'group_id', 'mail', 'modified', 'deleted', 'deleted_date'
+            );
+        } else if (isset($data['User']['passwd'])) {
+            $data['User']['passwd'] = AuthComponent::password($data['User']['passwd']);
         }
-        return true;
+        return parent::save($data, $validate, $fieldList);
     }
 }

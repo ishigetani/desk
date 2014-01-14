@@ -14,7 +14,8 @@
                 array(
                     'method' => 'get',
                     'sync' => true,
-                    'update' => '#next-content'
+                    'update' => '#next-content',
+                    'complete' => '$("#next-content:first").attr("id", "updated-content");'
                 ));?>
         });
     });

@@ -123,6 +123,7 @@ class UsersController extends AppController {
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
+            $this->request->data['User']['passwd'] = null;
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
