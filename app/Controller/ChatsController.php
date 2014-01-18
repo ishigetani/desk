@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Chats Controller
  *
@@ -28,12 +29,7 @@ class ChatsController extends AppController {
  * @return void
  */
 	public function index() {
-        $this->Chat->recursive = 0;
-        $this->Prg->commonProcess();
-        $this->paginate = array(
-            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
-        );
-        $this->set('chats', $this->Paginator->paginate());
+        $this->_chat_search();
         if ($this->request->is('ajax')) {
             $this->log('ajax', DESK_LOG);
             return $this->render('/Elements/chat', 'ajax');
@@ -56,6 +52,8 @@ class ChatsController extends AppController {
         $this->request->data['Chat']['user_id'] = $this->Auth->user('id');
         if (!$this->Chat->save($this->request->data)) {
             $this->set('valerror', $this->Chat->validationErrors['chat']);
+        } else {
+           // $email = new CakeEmail('gmail');
         }
         $this->render('/Elements/success','ajax');
 	}
@@ -68,12 +66,7 @@ class ChatsController extends AppController {
      */
     public function contents_update() {
         if (!$this->request->is('ajax')) throw new NotFoundException();
-        $this->Chat->recursive = 0;
-        $this->Prg->commonProcess();
-        $this->paginate = array(
-            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
-        );
-        $this->set('chats', $this->Paginator->paginate());
+        $this->_chat_search();
         if (!empty($this->request->params['paging']['Chat']['page'])) {
             $this->request->params['paging']['Chat']['page']++;
             $this->set('nextPage', $this->request->params['paging']['Chat']['page']);
@@ -142,6 +135,34 @@ class ChatsController extends AppController {
         } else {
             return $this->render('/Elements/chat_update', 'ajax');
         }
+    }
+
+    /**
+     * _chat_search method
+     *
+     * @get Category: int
+     * @get page: int
+     */
+    public function _chat_search() {
+        $this->Chat->recursive = 0;
+        $this->Prg->commonProcess();
+        $this->paginate = array(
+            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
+        );
+        $this->set('chats', $this->Paginator->paginate());
+    }
+
+    public function test_json() {
+        $this->viewClass = 'Json';
+        $result = $this->Chat->find('all');
+        $this->set('result', $result);
+        $this->set('_serialize', 'result');
+    }
+
+    public function content_json() {
+        $this->viewClass = 'Json';
+        $this->_chat_search();
+        $this->set('_serialize', 'chats');
     }
 
 }

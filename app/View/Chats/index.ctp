@@ -36,10 +36,11 @@ $request = $this->Js->request(
     <?php echo $this->Form->input('category', array('type' => 'select','options' => $categories, 'id' => 'category-list', 'label' => 'Category:', 'empty' => true)); ?>
     <script>
         $(function() {
-            $('select').change(function() {
-                test = $(this).val();
+            $('select#category-list').change(function() {
+                categoryId = $(this).val();
                 $.ajax({dataType:"html", success:function (data, textStatus) {$("#chat-contents").html(data);},
-                    sync:true, type:"get", url:"\/desk\/chats\/contents_update\/category:"+test});
+                    sync:true, type:"get", url:"\/desk\/chats\/contents_update\/category:"+categoryId});
+                $("#ChatCategoryId").val(categoryId);
             });
         });
     </script>
