@@ -27,7 +27,7 @@
             <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $chat['Chat']['id'])); ?>
             <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $chat['Chat']['id']), null, __('Are you sure you want to delete # %s?', $chat['Chat']['id'])); ?>
         </div>
-        <div id="body"><?php echo nl2br($chat['Chat']['chat']); ?></div>
+        <div id="body"><?php echo nl2br($this->Text->autoLinkUrls($chat['Chat']['chat'], array('target' => '_blank'))); ?></div>
         <div id="category">Category:<?php echo $chat['Category']['name']; ?></div>
         <div id="modified"><?php echo $chat['Chat']['modified']; ?></div>
     </div>

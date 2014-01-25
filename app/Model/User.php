@@ -23,6 +23,10 @@ class User extends AppModel {
 				'last' => true, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+            'alphaNumeric' => array(
+                'rule' => array('alphaNumeric'),
+                'message' => '半角英数字を入力してください'
+            ),
             'isUnique' => array(
                 'rule' => array('isUnique'),
                 'message' => 'このユーザ名はすでに使用されています'
@@ -48,6 +52,18 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+        'mail' => array(
+            'email' => array(
+                'rule' => array('email'),
+                'message' => 'メールアドレスを入力してください',
+                'allowEmpty' => true,
+            ),
+            'isUnique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'このメールアドレスはすでに使用されています',
+                'allowEmpty' => true,
+            )
+        )
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -89,7 +105,6 @@ class User extends AppModel {
 	);
 
     public function save($data = null, $validate = true, $fieldList = array()) {
-        $this->log($data, DESK_LOG);
         if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
             $fieldList = array(
                 'name', 'group_id', 'mail', 'modified', 'deleted', 'deleted_date'
@@ -98,5 +113,16 @@ class User extends AppModel {
             $data['User']['passwd'] = AuthComponent::password($data['User']['passwd']);
         }
         return parent::save($data, $validate, $fieldList);
+    }
+
+    /**
+     * 半角英数字のみOK(日本語にも対応)
+     *
+     * @link http://www.tailtension.com/cakephp/1112/
+     */
+    public function alphaNumeric($check) {
+        $value = array_values($check);
+        $value = $value[0];
+        return preg_match('/^[a-zA-Z0-9]+$/', $value);
     }
 }

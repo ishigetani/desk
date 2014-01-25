@@ -36,6 +36,7 @@ class UsersController extends AppController {
     public function login() {
         $this->layout = 'login';
         $this->set("title_for_layout","ログイン");
+        $this->Session->delete('Auth.redirect');
         if (!empty($this->request->data)) {
             if($this->Auth->login()){
                 $message = "Login is Success : ". $this->request->data['User']['name'];
@@ -92,10 +93,8 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash('登録しました');
 				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
 		$groups = $this->User->Group->find('list');

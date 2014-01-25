@@ -2,6 +2,7 @@
 <?php echo $this->Html->script('jquery.bottom-1.0'); ?>
 <?php echo $this->Html->script('jquery.leanModal.min'); ?>
 <?php echo $this->Html->script('pop-up'); ?>
+
 <a rel="leanModal" href="#add-message" id="button">AddMessage</a>
 <?php
 $request = $this->Js->request(
@@ -32,6 +33,26 @@ $request = $this->Js->request(
     </div>
     <?php echo $this->Form->end(); ?>
 </div>
+
+<div id="button" class="button-update">リスト更新</div>
+<div id="update-status"><?php echo $this->Html->image('ajax-loader.gif'); ?></div>
+<script>
+    <?php echo $this->Js->get('.button-update')->event(
+        'click',
+        $this->Js->request(
+            array('action' => 'contents_update'),
+            array(
+                'before' => "$('#update-status').show();",
+                'complete' => "$('#update-status').hide();",
+                'method' => 'get',
+                'sync' => true,
+                'update' => '#chat-contents',
+            )
+        ),
+        array('buffer' => false)
+    ); ?>
+</script>
+
 <div class="chat-index">
     <?php echo $this->Form->input('category', array('type' => 'select','options' => $categories, 'id' => 'category-list', 'label' => 'Category:', 'empty' => true)); ?>
     <script>

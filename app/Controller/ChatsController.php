@@ -21,6 +21,7 @@ class ChatsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow('content_json');
     }
 
 /**
@@ -147,16 +148,20 @@ class ChatsController extends AppController {
         $this->Chat->recursive = 0;
         $this->Prg->commonProcess();
         $this->paginate = array(
-            'conditions' => $this->Chat->parseCriteria($this->passedArgs),
+            'conditions' => array(
+                $this->Chat->parseCriteria($this->passedArgs),
+                'User.group_id' => $this->Auth->user('group_id'),   // 自分が所属しているContentのみ表示
+            ),
+            'fields' => array(
+                'Chat.id',          // ChatのID
+                'Chat.chat',        // 本文
+                'Chat.modified',    // Chatの更新日時
+                'User.name',        // 作成者
+                'Category.name',    // カテゴリー名
+                'Category.color'    // カテゴリーカラー
+            ),
         );
         $this->set('chats', $this->Paginator->paginate());
-    }
-
-    public function test_json() {
-        $this->viewClass = 'Json';
-        $result = $this->Chat->find('all');
-        $this->set('result', $result);
-        $this->set('_serialize', 'result');
     }
 
     public function content_json() {
