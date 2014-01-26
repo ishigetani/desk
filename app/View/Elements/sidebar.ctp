@@ -47,4 +47,12 @@
             <li><?php echo $this->Html->link(__('ADD'), array('controller' => 'groups', 'action' => 'add')); ?> </li>
         </ul>
     </li>
+
+    <li>
+        <h3 id="sidebar-header">Role</h3>
+        <ul id="sidebar-content">
+            <li><?php echo $this->Html->link(__('LIST'), array('controller' => 'roles', 'action' => 'index')); ?> </li>
+            <li><?php echo $this->Html->link(__('ADD'), array('controller' => 'roles', 'action' => 'add')); ?> </li>
+        </ul>
+    </li>
 </ul>

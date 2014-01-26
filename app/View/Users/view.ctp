@@ -11,16 +11,16 @@
 			<?php echo h($user['User']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Passwd'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['passwd']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Group'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($user['Group']['name'], array('controller' => 'groups', 'action' => 'view', $user['Group']['id'])); ?>
 			&nbsp;
 		</dd>
+        <dt><?php echo __('Role'); ?></dt>
+        <dd>
+            <?php echo $this->Html->link($user['Role']['name'], array('controller' => 'roles', 'action' => 'view', $user['Role']['id'])); ?>
+            &nbsp;
+        </dd>
 		<dt><?php echo __('Mail'); ?></dt>
 		<dd>
 			<?php echo h($user['User']['mail']); ?>

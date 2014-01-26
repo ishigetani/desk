@@ -51,4 +51,10 @@ class AppModel extends Model {
         return $this->save(array('id' => $id, 'deleted' => 1, 'deleted_date' => $timeNow), false);
     }
 
+    /**
+     * @return null
+     */
+    public function parentNode() {
+        return null;
+    }
 }

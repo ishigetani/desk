@@ -33,7 +33,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $components = array('DebugKit.Toolbar', 'Session', 'Auth');
+    public $components = array('DebugKit.Toolbar', 'Session', 'Auth', 'Acl');
 
     public function beforeFilter() {
         $this->Auth->loginRedirect = array('controller' => 'chats', 'action' => 'index');
@@ -49,6 +49,8 @@ class AppController extends Controller {
             // ログインしていない場合
             $this->Auth->authError = 'ログインしてください';
         }
+        // レイアウトは独自のものに変更
+        $this->layout = 'main';
         // ヘッダーの年生成
         $_timeNow = new DateTime();
         $this->set('year_time', $_timeNow->format('Y'));

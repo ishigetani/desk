@@ -8,6 +8,8 @@ App::uses('AppModel', 'Model');
  */
 class User extends AppModel {
 
+    public $actsAs = array('Acl' => array('type' => 'requester'));
+
 /**
  * Validation rules
  *
@@ -80,7 +82,14 @@ class User extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'Role' => array(
+            'className' => 'Role',
+            'foreignKey' => 'role_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 
 /**
@@ -107,7 +116,7 @@ class User extends AppModel {
     public function save($data = null, $validate = true, $fieldList = array()) {
         if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
             $fieldList = array(
-                'name', 'group_id', 'mail', 'modified', 'deleted', 'deleted_date'
+                'name', 'group_id', 'role_id', 'mail', 'modified', 'deleted', 'deleted_date'
             );
         } else if (isset($data['User']['passwd'])) {
             $data['User']['passwd'] = AuthComponent::password($data['User']['passwd']);
@@ -124,5 +133,24 @@ class User extends AppModel {
         $value = array_values($check);
         $value = $value[0];
         return preg_match('/^[a-zA-Z0-9]+$/', $value);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function parentNode() {
+        if (!$this->id && empty($this->data)) {
+            return null;
+        }
+        if (isset($this->data['User']['role_id'])) {
+            $roleId = $this->data['User']['role_id'];
+        } else {
+            $roleId = $this->field('role_id');
+        }
+        if (!$roleId) {
+            return null;
+        } else {
+            return array('Role' => array('id' => $roleId));
+        }
     }
 }

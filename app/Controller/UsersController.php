@@ -99,6 +99,8 @@ class UsersController extends AppController {
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
+        $roles = $this->User->Role->find('list');
+        $this->set(compact('roles'));
 	}
 
 /**
@@ -126,6 +128,8 @@ class UsersController extends AppController {
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
+        $roles = $this->User->Role->find('list');
+        $this->set(compact('roles'));
 	}
 
 /**
