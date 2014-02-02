@@ -21,4 +21,3 @@ class AclController extends AclAppController {
 	}
 	
 }
-?>

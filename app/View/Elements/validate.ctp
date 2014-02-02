@@ -10,7 +10,6 @@ echo $this->Html->css('validationEngine.jquery');
 echo $this->Html->script('jquery.validationEngine');
 echo $this->Html->script('jquery.validationEngine-ja');
 ?>
-
 <script>
     jQuery(document).ready(function(){
         jQuery("#form-validate").validationEngine();

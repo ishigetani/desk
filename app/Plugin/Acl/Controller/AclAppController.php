@@ -14,7 +14,8 @@ class AclAppController extends AppController
     function beforeFilter()
 	{
 	    parent :: beforeFilter();
-	    
+
+        $this->layout = 'default';
 		$this->_check_config();
 		$this->_check_files_updates();
 	}
@@ -201,4 +202,3 @@ class AclAppController extends AppController
 	    $this->redirect($this->referer(array('action' => 'admin_index')));
 	}
 }
-?>

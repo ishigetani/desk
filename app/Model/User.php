@@ -113,6 +113,15 @@ class User extends AppModel {
 		)
 	);
 
+    /**
+     * create・updateパスワード変更:パスワード暗号化
+     * updateパスワード変更なし:パスワード保存しない
+     *
+     * @param null $data
+     * @param bool $validate
+     * @param array $fieldList
+     * @return mixed
+     */
     public function save($data = null, $validate = true, $fieldList = array()) {
         if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
             $fieldList = array(
@@ -127,6 +136,8 @@ class User extends AppModel {
     /**
      * 半角英数字のみOK(日本語にも対応)
      *
+     * @param $check
+     * @return string
      * @link http://www.tailtension.com/cakephp/1112/
      */
     public function alphaNumeric($check) {
@@ -152,5 +163,20 @@ class User extends AppModel {
         } else {
             return array('Role' => array('id' => $roleId));
         }
+    }
+
+    /**
+     * 自分が所属しているContentのみ表示
+     *
+     * @param array $queryData
+     * @internal param string $type
+     * @internal param array $query
+     * @return array
+     */
+    public function beforeFind($queryData) {
+        if (!empty(AuthComponent::user('group_id'))) {
+            $queryData['conditions'][] = array('User.group_id' => AuthComponent::user('group_id'));
+        }
+        return $queryData;
     }
 }

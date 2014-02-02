@@ -52,6 +52,8 @@ class AppModel extends Model {
     }
 
     /**
+     * Acl
+     *
      * @return null
      */
     public function parentNode() {

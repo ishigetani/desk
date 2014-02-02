@@ -816,4 +816,3 @@ class ArosController extends AclAppController
         }
 	}
 }
-?>

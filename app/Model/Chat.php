@@ -109,4 +109,19 @@ class Chat extends AppModel {
         }
         return $result;
     }
+
+    /**
+     * 自分が所属しているContentのみ表示
+     *
+     * @param array $queryData
+     * @internal param string $type
+     * @internal param array $query
+     * @return array
+     */
+    public function beforeFind($queryData) {
+        if (!empty(AuthComponent::user('group_id'))) {
+            $queryData['conditions'][] = array('User.group_id' => AuthComponent::user('group_id'));
+        }
+        return $queryData;
+    }
 }

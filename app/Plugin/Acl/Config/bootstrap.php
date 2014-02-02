@@ -81,4 +81,3 @@ Configure :: write('acl.gui.roles_permissions.ajax', true);
  * Indicates whether the users permissions page must load through Ajax
  */
 Configure :: write('acl.gui.users_permissions.ajax', true);
-?>

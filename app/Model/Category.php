@@ -48,6 +48,21 @@ class Category extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+    public $belongsTo = array(
+        'Group' => array(
+            'className' => 'Group',
+            'foreignKey' => 'group_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
+
+/**
  * hasMany associations
  *
  * @var array
@@ -68,4 +83,28 @@ class Category extends AppModel {
 		)
 	);
 
+    /**
+     * 所属しているグループで保存
+     *
+     * @param array $options
+     * @return bool ture
+     */
+    public function beforeSave($options = array()) {
+        parent::beforeSave($options);
+        $this->set('group_id', AuthComponent::user('group_id'));
+        return ture;
+    }
+
+    /**
+     * 自分が所属しているContentのみ表示
+     *
+     * @param array $queryData
+     * @internal param string $type
+     * @internal param array $query
+     * @return array
+     */
+    public function beforeFind($queryData) {
+        $queryData['conditions'][] = array('Category.group_id' => AuthComponent::user('group_id'));
+        return $queryData;
+    }
 }

@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Copyright 2009 - 2013, Cake Development Corporation (http://cakedc.com)

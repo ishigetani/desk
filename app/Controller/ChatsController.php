@@ -21,7 +21,7 @@ class ChatsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('content_json');
+        $this->Auth->allow('content_json', 'content_xml');
     }
 
 /**
@@ -32,8 +32,7 @@ class ChatsController extends AppController {
 	public function index() {
         $this->_chat_search();
         if ($this->request->is('ajax')) {
-            $this->log('ajax', DESK_LOG);
-            return $this->render('/Elements/chat', 'ajax');
+            $this->render('/Elements/chat', 'ajax');
         }
         $this->loadModel('Category');
         $this->Category->recursive = 0;
@@ -149,8 +148,7 @@ class ChatsController extends AppController {
         $this->Prg->commonProcess();
         $this->paginate = array(
             'conditions' => array(
-                $this->Chat->parseCriteria($this->passedArgs),
-                'User.group_id' => $this->Auth->user('group_id'),   // 自分が所属しているContentのみ表示
+                $this->Chat->parseCriteria($this->passedArgs)
             ),
             'fields' => array(
                 'Chat.id',          // ChatのID
@@ -170,4 +168,31 @@ class ChatsController extends AppController {
         $this->set('_serialize', 'chats');
     }
 
+    public function content_xml() {
+        $this->response->header('Content-Type: application/xml');
+        $this->layout = 'xml/default';
+        $this->Chat->recursive = 0;
+        $this->Prg->commonProcess();
+        $this->paginate = array(
+            'conditions' => array(
+                $this->Chat->parseCriteria($this->passedArgs)
+            ),
+            'fields' => array(
+                'Chat.id',          // ChatのID
+                'Chat.chat',        // 本文
+                'Chat.modified',    // Chatの更新日時
+                'User.name',        // 作成者
+                'Category.name',    // カテゴリー名
+                'Category.color'    // カテゴリーカラー
+            ),
+        );
+
+        $data = array(
+            'responce' => array(
+                'data' => $this->Paginator->paginate()
+            )
+        );
+        App::uses('Xml', 'Utility');
+        $this->set('xmlString', Xml::fromArray($data));
+    }
 }
