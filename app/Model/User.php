@@ -16,6 +16,13 @@ class User extends AppModel {
  * @var array
  */
 	public $validate = array(
+        'id' => array(
+            'myUpdate' => array(
+                'rule' => array('myUpdateCheck'),
+                'message' => '自分のデータのみ編集することができます',
+                'on' => 'update'
+            )
+        ),
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
@@ -125,7 +132,7 @@ class User extends AppModel {
     public function save($data = null, $validate = true, $fieldList = array()) {
         if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
             $fieldList = array(
-                'name', 'group_id', 'role_id', 'mail', 'modified', 'deleted', 'deleted_date'
+                'id', 'name', 'group_id', 'role_id', 'mail', 'modified', 'deleted', 'deleted_date'
             );
         } else if (isset($data['User']['passwd'])) {
             $data['User']['passwd'] = AuthComponent::password($data['User']['passwd']);
@@ -174,9 +181,22 @@ class User extends AppModel {
      * @return array
      */
     public function beforeFind($queryData) {
-        if (!empty(AuthComponent::user('group_id'))) {
+        if (Configure::read('GroupFilter') && !empty(AuthComponent::user('group_id'))) {
             $queryData['conditions'][] = array('User.group_id' => AuthComponent::user('group_id'));
         }
         return $queryData;
+    }
+
+    /**
+     * アップデート時、本人でしか編集させない
+     *
+     * @param $data
+     * @return bool
+     */
+    public function myUpdateCheck($data) {
+        if ($data['id'] === AuthComponent::user('id')) {
+            return true;
+        }
+        return false;
     }
 }

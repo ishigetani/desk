@@ -85,6 +85,7 @@ class ChatsController extends AppController {
 			throw new NotFoundException(__('Invalid chat'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+            $this->request->data['Chat']['user_id'] = $this->Chat->createrFind($id);
 			if ($this->Chat->save($this->request->data)) {
 				$this->Session->setFlash(__('The chat has been saved.'));
 				$this->redirect(array('action' => 'index'));

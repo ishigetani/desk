@@ -13,6 +13,8 @@ class MailShell extends Shell {
 
     public function main() {
         $this->log("更新メールの送信を開始します", DESK_LOG);
+        // Groupフィルターの一時解除
+        Configure::write('GroupFilter', false);
         // グループごとに送信
         $this->Group->recursive = -1;
         $groups = $this->Group->find('all', array('fields' => array('id', 'name')));
@@ -60,6 +62,7 @@ class MailShell extends Shell {
                 $email->to($user['User']['mail'])
                     ->subject('test')
                     ->send('テスト');
+
                 $success++;
             } catch(Exception $e) {
                 $message = "USERID:". $user['id']. "へのメールが飛びませんでした";

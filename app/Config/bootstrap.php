@@ -148,3 +148,6 @@ Configure::write('Session', array(
 ));
 // アプリ名
 define('DESK_TITLE', 'DESK');
+
+// Groupフィルター機能のOn・Off
+Configure::write('GroupFilter', true);

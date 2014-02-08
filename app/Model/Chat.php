@@ -29,6 +29,12 @@ class Chat extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+            'myUpdate' => array(
+                'rule' => array('myUpdateCheck'),
+                'message' => '自分が作成したものしか変更することが出来ません',
+                'on' => 'update',
+                'last' => true
+            )
 		),
 		'chat' => array(
 			'notempty' => array(
@@ -119,9 +125,33 @@ class Chat extends AppModel {
      * @return array
      */
     public function beforeFind($queryData) {
-        if (!empty(AuthComponent::user('group_id'))) {
+        if (Configure::read('GroupFilter') && !empty(AuthComponent::user('group_id'))) {
             $queryData['conditions'][] = array('User.group_id' => AuthComponent::user('group_id'));
         }
         return $queryData;
+    }
+
+    /**
+     * アップデート時、本人でしか編集させない
+     *
+     * @param $data
+     * @return bool
+     */
+    public function myUpdateCheck($data) {
+        if ($data['user_id'] === AuthComponent::user('id')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 作成者を検索
+     *
+     * @param null $id
+     * @return mixed
+     */
+    public function createrFind($id = null) {
+        $_data = $this->find('first', array('conditions' => array('Chat.id' => $id), 'fields' => array('user_id')));
+        return $_data['Chat']['user_id'];
     }
 }
