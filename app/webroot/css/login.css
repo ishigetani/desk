@@ -14,13 +14,25 @@ body {
     text-align: center;
 }
 
-#login-form{
+#login-form {
     width: 400px;
     margin: 30px auto;
     padding: 20px;
     border: 1px solid #555;
     background: #ffffff;
     overflow: auto;
+}
+
+.groups form {
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #555;
+    background: #ffffff;
+    overflow: auto;
+}
+
+label {
+    display:block;
 }
 
 form p{

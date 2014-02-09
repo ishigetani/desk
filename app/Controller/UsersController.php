@@ -91,14 +91,13 @@ class UsersController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+            $this->request->data['User']['group_id'] = $this->Auth->user('group_id');
 			$this->User->create();
-			if ($this->User->save($this->request->data)) {
+			if ($this->User->save($this->request->data['User'])) {
 				$this->Session->setFlash('登録しました');
 				$this->redirect(array('action' => 'index'));
 			}
 		}
-		$groups = $this->User->Group->find('list');
-		$this->set(compact('groups'));
         $roles = $this->User->Role->find('list');
         $this->set(compact('roles'));
 	}
@@ -115,7 +114,8 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->User->save($this->request->data)) {
+            $this->request->data['User']['group_id'] = $this->Auth->user('group_id');
+			if ($this->User->save($this->request->data['User'])) {
 				$this->Session->setFlash(__('The user has been saved.'));
 				$this->redirect(array('action' => 'index'));
 			} else {

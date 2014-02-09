@@ -138,12 +138,12 @@ class User extends AppModel {
      * @return mixed
      */
     public function save($data = null, $validate = true, $fieldList = array()) {
-        if (!empty($data['User']['id']) && empty($data['User']['passwd'])) {
+        if (!empty($data['id']) && empty($data['passwd'])) {
             $fieldList = array(
                 'id', 'name', 'group_id', 'role_id', 'mail', 'modified', 'deleted', 'deleted_date'
             );
-        } else if (isset($data['User']['passwd'])) {
-            $data['User']['passwd'] = AuthComponent::password($data['User']['passwd']);
+        } else {
+            $data['passwd'] = AuthComponent::password($data['passwd']);
         }
         return parent::save($data, $validate, $fieldList);
     }

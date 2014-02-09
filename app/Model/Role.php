@@ -80,12 +80,12 @@ class Role extends AppModel {
      * 所属しているグループで保存
      *
      * @param array $options
-     * @return bool ture
+     * @return bool true
      */
     public function beforeSave($options = array()) {
         parent::beforeSave($options);
         $this->set('group_id', AuthComponent::user('group_id'));
-        return ture;
+        return true;
     }
 
     /**

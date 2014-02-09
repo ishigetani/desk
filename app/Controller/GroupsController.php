@@ -17,6 +17,7 @@ class GroupsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow('add');
     }
 
 /**
@@ -50,15 +51,24 @@ class GroupsController extends AppController {
  * @return void
  */
 	public function add() {
-		if ($this->request->is('post')) {
-			$this->Group->create();
-			if ($this->Group->save($this->request->data)) {
-				$this->Session->setFlash(__('The group has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
-			}
-		}
+        $this->layout = 'login';
+        $this->set("title_for_layout","グループ作成");
+		if (!$this->request->is('post')) return;
+
+        $this->Group->create();
+        if ($this->Group->save($this->request->data['Group'])) {
+            $this->request->data['User']['group_id'] = $this->Group->getInsertID();
+            $this->request->data['User']['role_id'] = $this->__getAdminId();
+            $this->loadModel('User');
+            $this->User->recursive = -1;
+            if ($this->User->save($this->request->data['User'])) {
+                $this->request->data['User'] = array_merge($this->request->data['User'], array('id' => $this->User->id));
+                $this->Auth->login($this->request->data['User']);
+                $this->redirect(array('controller' => 'chats', 'action' => 'index'));
+            }
+        }
+        // saveに失敗した場合
+        $this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 	}
 
 /**
@@ -75,7 +85,7 @@ class GroupsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Group->save($this->request->data)) {
 				$this->Session->setFlash(__('The group has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 			}
@@ -103,5 +113,18 @@ class GroupsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The group could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
-	}}
+	    $this->redirect(array('action' => 'index'));
+	}
+
+    /**
+     * Admin権限のID取り出し
+     *
+     * @return int
+     */
+    private function __getAdminId() {
+        $this->loadModel('Role');
+        $this->Role->recursive = -1;
+        $_result = $this->Role->find('first', array('conditions' => array('name' => 'Admin'), 'fields' => array('id')));
+        return (int)$_result['Role']['id'];
+    }
+}
