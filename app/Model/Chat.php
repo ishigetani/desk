@@ -37,8 +37,8 @@ class Chat extends AppModel {
             )
 		),
 		'chat' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				'message' => 'メッセージを入力してください',
 				//'allowEmpty' => false,
 				//'required' => false,

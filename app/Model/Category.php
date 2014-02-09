@@ -14,8 +14,8 @@ class Category extends AppModel {
  */
 	public $validate = array(
 		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -24,8 +24,8 @@ class Category extends AppModel {
 			),
 		),
 		'color' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -96,7 +96,7 @@ class Category extends AppModel {
     }
 
     /**
-     * 自分が所属しているContentのみ表示
+     * 自分が所属しているContentとAllのみ表示
      *
      * @param array $queryData
      * @internal param string $type
@@ -104,7 +104,8 @@ class Category extends AppModel {
      * @return array
      */
     public function beforeFind($queryData) {
-        $queryData['conditions'][] = array('Category.group_id' => AuthComponent::user('group_id'));
+        $queryData['conditions'][] = array('OR' => array('Category.group_id' => AuthComponent::user('group_id'),
+                                                        'Category.opend' => 1));
         return $queryData;
     }
 }

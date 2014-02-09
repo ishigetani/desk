@@ -27,9 +27,9 @@ class Role extends AppModel {
  */
 	public $validate = array(
 		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message' => '権限名を入力してください',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -89,7 +89,7 @@ class Role extends AppModel {
     }
 
     /**
-     * 自分が所属しているContentのみ表示
+     * 自分が所属しているContentとAllのみ表示
      *
      * @param array $queryData
      * @internal param string $type
@@ -97,7 +97,8 @@ class Role extends AppModel {
      * @return array
      */
     public function beforeFind($queryData) {
-        $queryData['conditions'][] = array('Role.group_id' => AuthComponent::user('group_id'));
+        $queryData['conditions'][] = array('OR' => array('Role.group_id' => AuthComponent::user('group_id'),
+                                                            'Role.opend' => 1));
         return $queryData;
     }
 }

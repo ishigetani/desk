@@ -72,6 +72,10 @@ class CategoriesController extends AppController {
 		if (!$this->Category->exists($id)) {
 			throw new NotFoundException(__('Invalid category'));
 		}
+        if ($this->Category->find('count', array('conditions' => array('Category.id' => $id, 'opend' => 1)))) {
+            $this->Session->setFlash('このカテゴリは編集できません');
+            $this->redirect(array('action' => 'index'));
+        }
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Category->save($this->request->data)) {
 				$this->Session->setFlash(__('The category has been saved.'));
@@ -97,6 +101,10 @@ class CategoriesController extends AppController {
 		if (!$this->Category->exists()) {
 			throw new NotFoundException(__('Invalid category'));
 		}
+        if ($this->Category->find('count', array('conditions' => array('Category.id' => $id, 'opend' => 1)))) {
+            $this->Session->setFlash('このカテゴリは削除できません');
+            $this->redirect(array('action' => 'index'));
+        }
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Category->delete()) {
 			$this->Session->setFlash(__('The category has been deleted.'));

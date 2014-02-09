@@ -72,6 +72,10 @@ class RolesController extends AppController {
 		if (!$this->Role->exists($id)) {
 			throw new NotFoundException(__('Invalid role'));
 		}
+        if ($this->Role->find('count', array('conditions' => array('Role.id' => $id, 'opend' => 1)))) {
+            $this->Session->setFlash('この権限は編集できません');
+            $this->redirect(array('action' => 'index'));
+        }
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Role->save($this->request->data)) {
 				$this->Session->setFlash(__('The role has been saved.'));
@@ -97,6 +101,10 @@ class RolesController extends AppController {
 		if (!$this->Role->exists()) {
 			throw new NotFoundException(__('Invalid role'));
 		}
+        if ($this->Role->find('count', array('conditions' => array('Role.id' => $id, 'opend' => 1)))) {
+            $this->Session->setFlash('この権限は削除できません');
+            $this->redirect(array('action' => 'index'));
+        }
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Role->delete()) {
 			$this->Session->setFlash(__('The role has been deleted.'));

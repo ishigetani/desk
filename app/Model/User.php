@@ -24,8 +24,8 @@ class User extends AppModel {
             )
         ),
 		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				'message' => '入力してください',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -42,8 +42,8 @@ class User extends AppModel {
             )
 		),
 		'passwd' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
 				'message' => '入力してください',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -71,7 +71,15 @@ class User extends AppModel {
                 'rule' => array('isUnique'),
                 'message' => 'このメールアドレスはすでに使用されています',
                 'allowEmpty' => true,
-            )
+            ),
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'message' => '入力してください',
+                //'allowEmpty' => false,
+                //'required' => false,
+                'last' => true, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
         )
 	);
 
