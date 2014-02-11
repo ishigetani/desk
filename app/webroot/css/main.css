@@ -310,6 +310,7 @@ input[type=radio] {
 	margin: 6px 0;
 	padding: 0;
 	line-height: 26px;
+    display:inline;
 }
 .radio label {
 	margin: 0 0 6px 20px;

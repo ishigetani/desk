@@ -105,7 +105,7 @@
  * to the roles you defined in the roles configuration.
  */
 $config['map'] = array(
-	'User' => 'User/username',
+	'User' => 'User/name',
 	'Role' => 'User/group_id',
 );
 

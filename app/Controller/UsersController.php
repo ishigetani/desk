@@ -94,7 +94,9 @@ class UsersController extends AppController {
             $this->request->data['User']['group_id'] = $this->Auth->user('group_id');
 			$this->User->create();
 			if ($this->User->save($this->request->data['User'])) {
-				$this->Session->setFlash('登録しました');
+                $message = '登録しました。';
+                $message = $this->__entryMail($this->User->getInsertID(), $message);
+				$this->Session->setFlash($message);
 				$this->redirect(array('action' => 'index'));
 			}
 		}
@@ -151,4 +153,36 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
 		}
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    private function __entryMail($id = null, $message = null) {
+        if (empty($id)) {
+            LogError('登録メールの送信を始められませんでした');
+            return $message;
+        }
+        App::uses('CakeEmail', 'Network/Email');
+        $email = new CakeEmail('gmail');
+        try {
+            $data = $this->User->find('first', array('conditions' => array('User.id' => $id)));
+            // テンプレートに送る変数
+            $ary_vars = array (
+                'name' => $data['User']['name'],
+                'group' => $data['Group']['name'],
+                'role' => $data['Role']['name'],
+            );
+            $email->template('entry', 'default'); // template, layout
+            $email->viewVars($ary_vars);
+
+            $email->to($data['User']['mail'])
+                ->subject('DESK登録完了')
+                ->send();
+
+            $message .= '完了メールを送信しましたのでご確認ください';
+        } catch(Exception $e) {
+            $message = "USERID:". $user['id']. "へのメールが飛びませんでした";
+            LogError($message);
+        }
+
+        return $message;
+    }
+}

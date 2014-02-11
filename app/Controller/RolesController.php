@@ -111,5 +111,6 @@ class RolesController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The role could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
-	}}
+		$this->redirect(array('action' => 'index'));
+	}
+}

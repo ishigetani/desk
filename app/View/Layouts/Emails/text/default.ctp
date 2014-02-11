@@ -19,6 +19,10 @@
 ?>
 <?php echo $this->fetch('content'); ?>
 
+
+ログインURLはこちらです。
+<?php echo LOGIN_URI; ?>
+
 ------------------
 conyative:DESK
 ------------------

@@ -102,7 +102,7 @@ Configure::write('Dispatcher.filters', array(
  * Configures default file logging options
  */
 App::uses('CakeLog', 'Log');
-$log_path = LOGS.DS.date('Ym').'_';
+$log_path = LOGS.date('Ym').'_';
 CakeLog::config('debug', array(
 	'engine' => 'FileLog',
 	'types' => array('notice', 'info', 'debug'),
@@ -148,6 +148,9 @@ Configure::write('Session', array(
 ));
 // アプリ名
 define('DESK_TITLE', 'DESK');
+
+// ログインURL
+define('LOGIN_URI', 'http://153.121.38.55/desk/users/login');
 
 // Groupフィルター機能のOn・Off
 Configure::write('GroupFilter', true);

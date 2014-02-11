@@ -60,8 +60,8 @@ class MailShell extends Shell {
                 $email->viewVars($ary_vars);
 
                 $email->to($user['User']['mail'])
-                    ->subject('test')
-                    ->send('テスト');
+                    ->subject('DESK更新情報')
+                    ->send();
 
                 $success++;
             } catch(Exception $e) {

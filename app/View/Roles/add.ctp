@@ -1,7 +1,7 @@
 <div class="roles form">
 <?php echo $this->Form->create('Role'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Role'); ?></legend>
+		<legend>権限追加</legend>
 	<?php
 		echo $this->Form->input('name');
 	?>

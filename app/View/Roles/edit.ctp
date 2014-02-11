@@ -1,7 +1,8 @@
+<h3>権限編集</h3>
 <div class="roles form">
 <?php echo $this->Form->create('Role'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Role'); ?></legend>
+		<legend>基本情報</legend>
 	<?php
 		echo $this->Form->input('name');
 	?>

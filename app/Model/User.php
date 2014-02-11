@@ -65,12 +65,10 @@ class User extends AppModel {
             'email' => array(
                 'rule' => array('email'),
                 'message' => 'メールアドレスを入力してください',
-                'allowEmpty' => true,
             ),
             'isUnique' => array(
                 'rule' => array('isUnique'),
                 'message' => 'このメールアドレスはすでに使用されています',
-                'allowEmpty' => true,
             ),
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
