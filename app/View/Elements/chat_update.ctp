@@ -7,18 +7,19 @@
  */
 ?>
 <script>
-<?php echo $this->Js->request(
-    array(
-        'action' => 'update_check',
-    ),
-    array(
-        'method' => 'get',
-        'sync' => true,
-        'update' => '#chat-updating',
-    )
-);
-?>
-$(function(){
-    $("#chat-updated").fadeOut('slow');
-});
+    $(function(){
+        setInterval(function(){
+            <?php echo $this->Js->request(
+                array(
+                    'action' => 'update_check',
+                ),
+                array(
+                    'method' => 'get',
+                    'async' => true,
+                    'update' => '#chat-updating',
+                )
+            );
+            ?>
+        }, <?php echo UPDATE_TIME; ?>);
+    });
 </script>

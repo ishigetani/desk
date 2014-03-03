@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('CakeSession', 'Model/Datasource');
 /**
  * Chat Model
  *
@@ -82,36 +83,39 @@ class Chat extends AppModel {
 		)
 	);
 
-    // comet処理
+    /**
+     * @param null $id
+     * @return bool
+     */
     public function update_check($id = null) {
         if(empty($id)) return false;
         $result = false;
         $this->recursive = -1;
         $_data['created'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('id' => 'DESC')));
         $_data['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
-        for ($i = 0; $i < 20; $i++) {
-            sleep(1);
-            // 作成・更新されたデータがあれば終了
-            $_tmp['created'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('id' => 'DESC')));
-            if ($_data['created'] != $_tmp['created']) {
-                // 自分以外が更新した場合trueを返す
-                if ($_tmp['created']['Chat']['user_id'] == $id) {
-                    $result = false;
-                } else {
-                    $result = true;
-                }
-                break;
+        // session値に前回の最新データを入れておく
+        if (!CakeSession::check('chatId')) {
+            CakeSession::write('chatId', $_data);
+            return $result;
+        } else {
+            $_tmp = CakeSession::read('chatId');
+        }
+        if ($_data['created'] != $_tmp['created']) {
+            // 自分以外が更新した場合trueを返す
+            if ($_tmp['created']['Chat']['user_id'] != $id) {
+                $result = true;
             }
-            $_tmp['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
-            if ($_data['modified'] != $_tmp['modified']) {
-                // 自分以外が更新した場合trueを返す
-                if ($_tmp['modified']['Chat']['user_id'] == $id) {
-                    $result = false;
-                } else {
-                    $result = true;
-                }
-                break;
+        }
+        $_tmp['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
+        if ($_data['modified'] != $_tmp['modified']) {
+            // 自分以外が更新した場合trueを返す
+            if ($_tmp['modified']['Chat']['user_id'] == $id) {
+                $result = true;
             }
+        }
+        if ($result) {
+            // 更新がある場合
+            CakeSession::write('chatId', $_data);
         }
         return $result;
     }
@@ -125,7 +129,7 @@ class Chat extends AppModel {
      * @return array
      */
     public function beforeFind($queryData) {
-        if (Configure::read('GroupFilter') && !empty(AuthComponent::user('group_id'))) {
+        if (Configure::read('GroupFilter') && !empty(AuthComponent::user('group_id')) && $this->recursive > -1) {
             $queryData['conditions'][] = array('User.group_id' => AuthComponent::user('group_id'));
         }
         return $queryData;
@@ -142,16 +146,5 @@ class Chat extends AppModel {
             return true;
         }
         return false;
-    }
-
-    /**
-     * 作成者を検索
-     *
-     * @param null $id
-     * @return mixed
-     */
-    public function createrFind($id = null) {
-        $_data = $this->find('first', array('conditions' => array('Chat.id' => $id), 'fields' => array('user_id')));
-        return $_data['Chat']['user_id'];
     }
 }

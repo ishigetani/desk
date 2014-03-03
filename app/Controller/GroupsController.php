@@ -62,7 +62,9 @@ class GroupsController extends AppController {
             $this->loadModel('User');
             $this->User->recursive = -1;
             if ($this->User->save($this->request->data['User'])) {
+                $this->Session->setFlash('DESKへようこそ！！');
                 $this->request->data['User'] = array_merge($this->request->data['User'], array('id' => $this->User->id));
+                $this->log($this->request->data['User'], DESK_LOG);
                 $this->Auth->login($this->request->data['User']);
                 $this->redirect(array('controller' => 'chats', 'action' => 'index'));
             }

@@ -150,7 +150,11 @@ Configure::write('Session', array(
 define('DESK_TITLE', 'DESK');
 
 // ログインURL
-define('LOGIN_URI', 'http://153.121.38.55/desk/users/login');
+define('LOGIN_URI', 'http://desk.conyative.com/users/login');
+
+// Chat更新間隔(ms)
+// 1s = 1000
+define('UPDATE_TIME', 5000);
 
 // Groupフィルター機能のOn・Off
 Configure::write('GroupFilter', true);

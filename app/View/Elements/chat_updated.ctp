@@ -12,6 +12,6 @@
 <script>
     $(function(){
         $("#dataMessage").stop().fadeIn(1000).delay(2000).fadeOut("slow");
-        $("#chat-updated").fadeIn('slow');
+        $("#update-data").fadeIn(2000);
     });
 </script>

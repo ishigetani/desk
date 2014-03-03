@@ -12,6 +12,7 @@ class MailShell extends Shell {
     public $uses = array('Chat', 'User', 'Group');
 
     public function main() {
+        $this->log("---------------------------------------------------------------------------", DESK_LOG);
         $this->log("更新メールの送信を開始します", DESK_LOG);
         // Groupフィルターの一時解除
         Configure::write('GroupFilter', false);
@@ -19,13 +20,12 @@ class MailShell extends Shell {
         $this->Group->recursive = -1;
         $groups = $this->Group->find('all', array('fields' => array('id', 'name')));
         foreach ($groups as $group) {
-            $this->log("---------------------------------------------------------------------------", DESK_LOG);
             $this->log($group['Group']['name']. 'への送信', DESK_LOG);
             $message = $this->send($group['Group']['id']);
             $this->log($message, DESK_LOG);
-            $this->log("---------------------------------------------------------------------------", DESK_LOG);
         }
         $this->log("送信が正常に終了しました", DESK_LOG);
+        $this->log("---------------------------------------------------------------------------", DESK_LOG);
     }
 
     /**

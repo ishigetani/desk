@@ -12,7 +12,7 @@ $request = $this->Js->request(
         array(
             'method' => 'get',
             'sync' => true,
-            'update' => '#chat-contents',
+            'update' => '#chat-contents'
         )
     );
 ?>
@@ -36,6 +36,7 @@ $request = $this->Js->request(
 
 <div id="button" class="button-update">リスト更新</div>
 <div id="update-status"><?php echo $this->Html->image('ajax-loader.gif'); ?></div>
+<div id="update-data">更新することが出来ます</div>
 <script>
     <?php echo $this->Js->get('.button-update')->event(
         'click',
@@ -43,7 +44,7 @@ $request = $this->Js->request(
             array('action' => 'contents_update'),
             array(
                 'before' => "$('#update-status').show();",
-                'complete' => "$('#update-status').hide();",
+                'complete' => "$('#update-status').hide();$('#update-data').hide();",
                 'method' => 'get',
                 'sync' => true,
                 'update' => '#chat-contents',
@@ -67,7 +68,7 @@ $request = $this->Js->request(
     </script>
     <div id="chat-list">
         <div id="chat-updating">
-            <?php //echo $this->Element('chat_update'); ?>
+            <?php echo $this->Element('chat_update'); ?>
         </div>
         <div id="chat-contents">
             <?php echo $this->Element('chat_contents'); ?>

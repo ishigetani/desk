@@ -48,7 +48,3 @@
 #sidebar ul li a.side-active {
     background-image: -webkit-linear-gradient(top, #fefefe, #31b14f);
 }
-
-#update-status {
-    display: none;
-}

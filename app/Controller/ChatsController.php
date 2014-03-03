@@ -38,6 +38,7 @@ class ChatsController extends AppController {
         $this->Category->recursive = 0;
         $this->set('categories', $this->Category->find('list'));
         $this->set('nextPage', 2);
+        $this->set('sessionId', $this->Session->id());
 	}
 
 /**
@@ -132,10 +133,10 @@ class ChatsController extends AppController {
         if(!$this->request->is('ajax')) throw new NotFoundException();
         $this->autoRender = false;
         if ($this->Chat->update_check($this->Auth->user('id'))) {
+            $this->log('update_ok!', DESK_LOG);
             return $this->render('/Elements/chat_updated', 'ajax');
-        } else {
-            return $this->render('/Elements/chat_update', 'ajax');
         }
+        return $this->render('/Elements/chat_update', 'ajax');
     }
 
     /**

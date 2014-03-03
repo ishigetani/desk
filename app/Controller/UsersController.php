@@ -24,7 +24,7 @@ class UsersController extends AppController {
  */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('login');
+        $this->Auth->allow('login', 'getGroupId');
         $this->Auth->userScope = array('deleted' => 0);
     }
 
@@ -155,6 +155,13 @@ class UsersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    /**
+     * ユーザ登録時のメール送信
+     *
+     * @param null $id
+     * @param null $message
+     * @return null|string
+     */
     private function __entryMail($id = null, $message = null) {
         if (empty($id)) {
             LogError('登録メールの送信を始められませんでした');
@@ -179,10 +186,23 @@ class UsersController extends AppController {
 
             $message .= '完了メールを送信しましたのでご確認ください';
         } catch(Exception $e) {
-            $message = "USERID:". $user['id']. "へのメールが飛びませんでした";
+            $message = "USERID:". $id. "へのメールが飛びませんでした";
             LogError($message);
         }
 
         return $message;
+    }
+
+    /**
+     * ログインユーザのgroup_idを返す(node.js)
+     *
+     * @return int
+     */
+    public function getGroupId($user_id = null) {
+        $this->viewClass = 'Json';
+        $this->User->recursive = -1;
+        $group_id = $this->User->find('first', array('conditions' => array('id' => $user_id), 'fields' => array('group_id')));
+        $this->set('group_id', $group_id['User']);
+        $this->set('_serialize', 'group_id');
     }
 }
