@@ -152,6 +152,9 @@ define('DESK_TITLE', 'DESK');
 // ログインURL
 define('LOGIN_URI', 'http://desk.conyative.com/users/login');
 
+// Adminメールアドレス
+define('ADMIN_MAIL', '');
+
 // Chat更新間隔(ms)
 // 1s = 1000
 define('UPDATE_TIME', 5000);

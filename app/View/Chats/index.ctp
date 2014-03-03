@@ -67,6 +67,23 @@ $request = $this->Js->request(
         });
     </script>
     <div id="chat-list">
+        <script>
+            $(function(){
+                setInterval(function(){
+                    <?php echo $this->Js->request(
+                        array(
+                            'action' => 'update_check',
+                        ),
+                        array(
+                            'method' => 'get',
+                            'async' => true,
+                            'update' => '#chat-updating',
+                        )
+                    );
+                    ?>
+                }, <?php echo UPDATE_TIME; ?>);
+            });
+        </script>
         <div id="chat-updating">
             <?php echo $this->Element('chat_update'); ?>
         </div>

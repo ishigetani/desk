@@ -133,7 +133,6 @@ class ChatsController extends AppController {
         if(!$this->request->is('ajax')) throw new NotFoundException();
         $this->autoRender = false;
         if ($this->Chat->update_check($this->Auth->user('id'))) {
-            $this->log('update_ok!', DESK_LOG);
             return $this->render('/Elements/chat_updated', 'ajax');
         }
         return $this->render('/Elements/chat_update', 'ajax');
