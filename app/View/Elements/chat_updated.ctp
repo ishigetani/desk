@@ -12,6 +12,6 @@
 <script>
     $(function(){
         $("#dataMessage").stop().fadeIn(1000).delay(2000).fadeOut("slow");
-        $("#update-data").fadeIn(2000);
+        $('.button-update').text(' 更新可能 ');
     });
 </script>

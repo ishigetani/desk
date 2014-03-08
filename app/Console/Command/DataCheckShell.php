@@ -8,12 +8,12 @@
 
 App::uses('CakeEmail', 'Network/Email');
 
-class UserCheckShell extends Shell {
-    public $uses = array('User', 'Group');
+class DataCheckShell extends Shell {
+    public $uses = array('User', 'Group', 'Chat');
 
     public function main() {
         $this->log("---------------------------------------------------------------------------", DESK_LOG);
-        $this->log("ユーザ数のチェックを開始します", DESK_LOG);
+        $this->log("今週分のチェックを開始します", DESK_LOG);
         // Groupフィルターの一時解除
         Configure::write('GroupFilter', false);
         // グループ数の確認
@@ -22,23 +22,23 @@ class UserCheckShell extends Shell {
         // ユーザ数の確認
         $this->User->recursive = -1;
         $user_num = $this->User->find('count', array('conditions' => array($this->__weekSet())));
+        // Chat回数の確認(全体)
+        $this->Chat->recursive = -1;
+        $chat_num = $this->Chat->find('count', array('conditions' => array($this->__weekSet())));
 
-        if ($user_num > 0 || $group_num > 0) {
-            $this->log('新規ユーザがいたのでメール送信をします', DESK_LOG);
-            $email = new CakeEmail('gmail');
-            // テンプレートに送る変数
-            $ary_vars = array (
-                'user_num' => $user_num,
-                'group_num' => $group_num,
-            );
-            $email->template('num_check', 'default'); // template, layout
-            $email->viewVars($ary_vars);
-            $email->to(ADMIN_MAIL)
-                ->subject('DESKユーザ情報')
-                ->send();
-        } else {
-            $this->log('新規ユーザはいませんでした', DESK_LOG);
-        }
+        $this->log('メール送信をします', DESK_LOG);
+        $email = new CakeEmail('gmail');
+        // テンプレートに送る変数
+        $ary_vars = array (
+            'user_num' => $user_num,
+            'group_num' => $group_num,
+            'chat_num' => $chat_num,
+        );
+        $email->template('num_check', 'default'); // template, layout
+        $email->viewVars($ary_vars);
+        $email->to(ADMIN_MAIL)
+            ->subject('今週のDESK情報')
+            ->send();
 
         $this->log("ユーザ数のチェックを終了します", DESK_LOG);
         $this->log("---------------------------------------------------------------------------", DESK_LOG);

@@ -143,7 +143,7 @@ table tr td {
     border-bottom:1px solid #ddd;
 }
 table tr:nth-child(even) {
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
 }
 td.actions {
     text-align: center;
@@ -848,8 +848,4 @@ a#button {
     clear: both;
     margin: 0 0 10px 10px;
     width: 20%;
-}
-
-#update-status ,#update-data {
-    display: none;
 }

@@ -153,7 +153,7 @@ define('DESK_TITLE', 'DESK');
 define('LOGIN_URI', 'http://desk.conyative.com/users/login');
 
 // Adminメールアドレス
-define('ADMIN_MAIL', '');
+define('ADMIN_MAIL', 'conyative@gmail.com');
 
 // Chat更新間隔(ms)
 // 1s = 1000

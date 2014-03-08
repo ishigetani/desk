@@ -26,23 +26,8 @@ class GroupsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Group->recursive = 0;
-		$this->set('groups', $this->Paginator->paginate());
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Group->exists($id)) {
-			throw new NotFoundException(__('Invalid group'));
-		}
-		$options = array('conditions' => array('Group.' . $this->Group->primaryKey => $id));
-		$this->set('group', $this->Group->find('first', $options));
+        $options = array('conditions' => array('Group.' . $this->Group->primaryKey => $this->Auth->user('group_id')));
+        $this->set('group', $this->Group->find('first', $options));
 	}
 
 /**

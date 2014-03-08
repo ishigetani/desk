@@ -11,7 +11,9 @@
 	</tr>
 	<?php foreach ($categories as $category): ?>
 	<tr>
-		<td><?php echo h($category['Category']['id']); ?>&nbsp;</td>
+		<td style="background-color: #<?php echo h($category['Category']['color']); ?>">
+            <?php echo h($category['Category']['id']); ?>&nbsp;
+        </td>
 		<td><?php echo h($category['Category']['name']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['color']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['created']); ?>&nbsp;</td>

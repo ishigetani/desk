@@ -35,16 +35,14 @@ $request = $this->Js->request(
 </div>
 
 <div id="button" class="button-update">リスト更新</div>
-<div id="update-status"><?php echo $this->Html->image('ajax-loader.gif'); ?></div>
-<div id="update-data">更新することが出来ます</div>
 <script>
     <?php echo $this->Js->get('.button-update')->event(
         'click',
         $this->Js->request(
             array('action' => 'contents_update'),
             array(
-                'before' => "$('#update-status').show();",
-                'complete' => "$('#update-status').hide();$('#update-data').hide();",
+                'before' => "$('.button-update').text('　更新中　');",
+                'complete' => "$('.button-update').text('リスト更新');",
                 'method' => 'get',
                 'sync' => true,
                 'update' => '#chat-contents',

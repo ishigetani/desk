@@ -106,10 +106,9 @@ class Chat extends AppModel {
                 $result = true;
             }
         }
-        $_tmp['modified'] = $this->find('first', array('fields' => array('id', 'user_id') ,'order' => array('modified' => 'DESC')));
         if ($_data['modified'] != $_tmp['modified']) {
             // 自分以外が更新した場合trueを返す
-            if ($_tmp['modified']['Chat']['user_id'] == $id) {
+            if ($_tmp['modified']['Chat']['user_id'] != $id) {
                 $result = true;
             }
         }

@@ -53,8 +53,6 @@ class ChatsController extends AppController {
         $this->request->data['Chat']['user_id'] = $this->Auth->user('id');
         if (!$this->Chat->save($this->request->data)) {
             $this->set('valerror', $this->Chat->validationErrors['chat']);
-        } else {
-           // $email = new CakeEmail('gmail');
         }
         $this->render('/Elements/success','ajax');
 	}

@@ -20,7 +20,6 @@
         <h3 id="sidebar-header">Chat</h3>
         <ul id="sidebar-content">
             <li><?php echo $this->Html->link(__('LIST'), array('controller' => 'chats', 'action' => 'index')); ?> </li>
-            <li><?php echo $this->Html->link(__('ADD'), array('controller' => 'chats', 'action' => 'add')); ?> </li>
         </ul>
     </li>
 
@@ -43,11 +42,11 @@
     <li>
         <h3 id="sidebar-header">Group</h3>
         <ul id="sidebar-content">
-            <li><?php echo $this->Html->link(__('LIST'), array('controller' => 'groups', 'action' => 'index')); ?> </li>
-            <li><?php echo $this->Html->link(__('ADD'), array('controller' => 'groups', 'action' => 'add')); ?> </li>
+            <li><?php echo $this->Html->link(__('Detail'), array('controller' => 'groups', 'action' => 'index')); ?> </li>
         </ul>
     </li>
 
+    <!-- 未実装
     <li>
         <h3 id="sidebar-header">Role</h3>
         <ul id="sidebar-content">
@@ -55,4 +54,5 @@
             <li><?php echo $this->Html->link(__('ADD'), array('controller' => 'roles', 'action' => 'add')); ?> </li>
         </ul>
     </li>
+    -->
 </ul>
